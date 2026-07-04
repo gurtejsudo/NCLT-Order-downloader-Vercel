@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCLT Order Downloader</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-content">
+                <i class="fas fa-gavel header-icon"></i>
+                <h1>NCLT Order Downloader</h1>
+                <p>Bulk download and merge orders for National Company Law Tribunal cases</p>
+            </div>
+            <a href="https://gurtejpalsingh.com" target="_blank" class="author-badge">
+                <img src="https://github.com/gurtejsudo.png" alt="Gurtejpal Singh" class="author-avatar">
+                <span>By Gurtejpal Singh</span>
+            </a>
+        </header>
+
+        <!-- Search Card -->
+        <div class="card" id="searchCard">
+            <div class="card-header">
+                <h2><i class="fas fa-search"></i> Case Search</h2>
+            </div>
+            
+            <form id="searchForm" class="search-form">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="bench_id">Zonal Bench</label>
+                        <select id="bench_id" required>
+                            <option value="">Select Bench</option>
+                            <option value="1">Ahmedabad</option>
+                            <option value="2">Allahabad</option>
+                            <option value="3">Bengaluru</option>
+                            <option value="4">Chandigarh</option>
+                            <option value="5">Chennai</option>
+                            <option value="6">Guwahati</option>
+                            <option value="7">Hyderabad</option>
+                            <option value="8">Kolkata</option>
+                            <option value="9">Mumbai</option>
+                            <option value="10">Principal Bench / New Delhi</option>
+                            <option value="11">Jaipur</option>
+                            <option value="12">Amaravati</option>
+                            <option value="13">Cuttack</option>
+                            <option value="14">Kochi</option>
+                            <option value="15">Indore</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="case_type">Case Type</label>
+                        <select id="case_type" required>
+                            <option value="">Select Case Type</option>
+                            <option value="16">Company Petition IB (IBC)</option>
+                            <option value="20">Interlocutory Application (IBC)</option>
+                            <option value="2">Company Petition (Company Act)</option>
+                            <option value="14">CA(A) Merger & Amalgamation (Company Act)</option>
+                            <option value="7">Intervention Petition (Company Act)</option>
+                            <option value="10">Miscellaneous Application (Company Act)</option>
+                            <option value="33">Insolvency & Bankruptcy (Pre-Packaged)</option>
+                            <option value="29">Transfer Petition (IBC)</option>
+                            <option value="35">Voluntary Liquidation (IBC)(IBC)</option>
+                            <!-- other types omitted for brevity, fallback logic handled if needed -->
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="case_no">Case Number</label>
+                        <input type="number" id="case_no" placeholder="e.g. 123" required min="1">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="case_year">Year</label>
+                        <select id="case_year" required>
+                            <option value="">Select Year</option>
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="searchBtn">
+                        <i class="fas fa-search"></i> Find Orders
+                    </button>
+                    <button type="button" class="btn btn-secondary hidden" id="resetBtn">
+                        <i class="fas fa-undo"></i> New Search
+                    </button>
+                </div>
+                
+                <div id="searchError" class="error-message hidden"></div>
+            </form>
+        </div>
+
+        <!-- Case Selection Card (If multiple cases) -->
+        <div class="card hidden" id="casesCard">
+            <div class="card-header">
+                <h2><i class="fas fa-list"></i> Select Case</h2>
+            </div>
+            <div id="casesList" class="cases-list"></div>
+        </div>
+
+        <!-- Orders Card -->
+        <div class="card hidden" id="ordersCard">
+            <div class="card-header flex-between">
+                <h2><i class="fas fa-file-pdf"></i> Available Orders</h2>
+                <span class="badge" id="orderCount">0 orders found</span>
+            </div>
+
+            <div class="table-controls">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="selectAll" checked>
+                    <span class="checkmark"></span>
+                    Select All
+                </label>
+            </div>
+
+            <div class="table-responsive">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th width="50">Sel</th>
+                            <th width="50">#</th>
+                            <th>Order Date</th>
+                            <th>Listing Date</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersBody"></tbody>
+                </table>
+            </div>
+
+            <div class="form-actions mt-4">
+                <button class="btn btn-success" id="downloadBtn">
+                    <i class="fas fa-download"></i> Download Selected (<span id="selectedCount">0</span>)
+                </button>
+            </div>
+        </div>
+
+        <!-- Progress Modal -->
+        <div class="modal-overlay hidden" id="progressModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3><i class="fas fa-cogs"></i> Processing Orders</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="progress-stats">
+                        <div class="stat">
+                            <span class="stat-value" id="progTotal">0</span>
+                            <span class="stat-label">Total</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value success-text" id="progDone">0</span>
+                            <span class="stat-label">Downloaded</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value error-text" id="progFailed">0</span>
+                            <span class="stat-label">Failed</span>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                    </div>
+                    <p class="progress-text" id="progressText">Initializing download...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complete Modal -->
+        <div class="modal-overlay hidden" id="completeModal">
+            <div class="modal success-modal">
+                <div class="modal-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Merge Complete!</h2>
+                <p>Your PDF containing all selected orders is ready.</p>
+                
+                <div class="modal-actions">
+                    <button class="btn btn-primary" id="savePdfBtn">
+                        <i class="fas fa-save"></i> Save PDF
+                    </button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('completeModal').classList.add('hidden')">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+
+                <div id="failedOrdersContainer" class="hidden mt-4">
+                    <div class="error-message">
+                        <strong><i class="fas fa-exclamation-triangle"></i> Some orders failed:</strong>
+                        <ul id="failedOrdersList" class="error-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

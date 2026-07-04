@@ -1,0 +1,13 @@
+{
+  "name": "nclt-order-downloader",
+  "version": "1.0.0",
+  "description": "NCLT Order Downloader using Vercel Serverless Functions",
+  "scripts": {
+    "start": "vercel dev",
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "axios": "^1.13.5",
+    "pdf-lib": "^1.17.1"
+  }
+}
