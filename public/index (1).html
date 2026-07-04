@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCLT Order Downloader</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="header-inner">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M6 8l-4 8a4 4 0 0 0 8 0l-4-8ZM18 8l-4 8a4 4 0 0 0 8 0l-4-8ZM3 8h6M15 8h6M9 21h6"/></svg>
+                    </div>
+                    <div>
+                        <div class="logo-title">NCLT Order Downloader</div>
+                        <div class="logo-subtitle">Bulk Retrieval &amp; PDF Merge</div>
+                    </div>
+                </div>
+                <div class="header-badge">
+                    <span class="badge-dot"></span>
+                    <span>NCLT e-Filing</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+
+            <!-- Search Card -->
+            <section class="card" id="searchCard">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="card-title">Case Search</h2>
+                        <p class="card-desc">Find orders by zonal bench, case type, number and year</p>
+                    </div>
+                </div>
+
+                <form id="searchForm" class="search-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="bench_id">Zonal Bench</label>
+                            <div class="select-wrapper">
+                                <select id="bench_id" class="form-select" required>
+                                    <option value="">Select Bench</option>
+                                    <option value="1">Ahmedabad</option>
+                                    <option value="2">Allahabad</option>
+                                    <option value="3">Bengaluru</option>
+                                    <option value="4">Chandigarh</option>
+                                    <option value="5">Chennai</option>
+                                    <option value="6">Guwahati</option>
+                                    <option value="7">Hyderabad</option>
+                                    <option value="8">Kolkata</option>
+                                    <option value="9">Mumbai</option>
+                                    <option value="10">Principal Bench / New Delhi</option>
+                                    <option value="11">Jaipur</option>
+                                    <option value="12">Amaravati</option>
+                                    <option value="13">Cuttack</option>
+                                    <option value="14">Kochi</option>
+                                    <option value="15">Indore</option>
+                                </select>
+                                <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="case_type">Case Type</label>
+                            <div class="select-wrapper">
+                                <select id="case_type" class="form-select" required>
+                                    <option value="">Select Case Type</option>
+                                    <option value="16">Company Petition IB (IBC)</option>
+                                    <option value="20">Interlocutory Application (IBC)</option>
+                                    <option value="2">Company Petition (Company Act)</option>
+                                    <option value="14">CA(A) Merger &amp; Amalgamation (Company Act)</option>
+                                    <option value="7">Intervention Petition (Company Act)</option>
+                                    <option value="10">Miscellaneous Application (Company Act)</option>
+                                    <option value="33">Insolvency &amp; Bankruptcy (Pre-Packaged)</option>
+                                    <option value="29">Transfer Petition (IBC)</option>
+                                    <option value="35">Voluntary Liquidation (IBC)</option>
+                                </select>
+                                <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="case_no">Case Number</label>
+                            <input type="number" id="case_no" class="form-input" placeholder="e.g. 123" required min="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="case_year">Year</label>
+                            <div class="select-wrapper">
+                                <select id="case_year" class="form-select" required>
+                                    <option value="">Select Year</option>
+                                </select>
+                                <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="searchBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                            Find Orders
+                        </button>
+                        <button type="button" class="btn btn-secondary hidden" id="resetBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+                            New Search
+                        </button>
+                    </div>
+
+                    <p id="searchError" class="error-message hidden"></p>
+                </form>
+            </section>
+
+            <!-- Case Selection -->
+            <section class="card hidden" id="casesCard">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="card-title">Select Case</h2>
+                        <p class="card-desc">Multiple matches found — choose the correct case</p>
+                    </div>
+                </div>
+                <div id="casesList" class="cases-list"></div>
+            </section>
+
+            <!-- Orders -->
+            <section class="card hidden" id="ordersCard">
+                <div class="card-header flex-between">
+                    <div class="card-header-text">
+                        <div class="card-icon success">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6Z"/><path d="M14 2v6h6"/></svg>
+                        </div>
+                        <div>
+                            <h2 class="card-title">Available Orders</h2>
+                            <p class="card-desc">Select the orders to include in the merged PDF</p>
+                        </div>
+                    </div>
+                    <span class="badge" id="orderCount">0 orders found</span>
+                </div>
+
+                <div class="table-controls">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="selectAll" checked>
+                        <span class="checkmark"></span>
+                        Select All
+                    </label>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th width="40">Sel</th>
+                                <th width="40">#</th>
+                                <th>Order Date</th>
+                                <th>Listing Date</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="form-actions mt-4">
+                    <button class="btn btn-download-merged" id="downloadBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+                        Download Selected (<span id="selectedCount">0</span>)
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            NCLT Order Downloader &middot; built by <a href="https://gurtejpalsingh.com" target="_blank" rel="noopener">Gurtejpal Singh</a>
+        </footer>
+
+        <!-- Progress Modal -->
+        <div class="modal-overlay hidden" id="progressModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="spin"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></svg>
+                        Processing Orders
+                    </h3>
+                </div>
+                <div class="progress-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="progTotal">0</span>
+                        <span class="stat-label">Total</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value success-text" id="progDone">0</span>
+                        <span class="stat-label">Downloaded</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value error-text" id="progFailed">0</span>
+                        <span class="stat-label">Failed</span>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                </div>
+                <p class="progress-text" id="progressText">Initializing download...</p>
+            </div>
+        </div>
+
+        <!-- Complete Modal -->
+        <div class="modal-overlay hidden" id="completeModal">
+            <div class="modal success-modal">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m22 4-10 10-3-3"/></svg>
+                </div>
+                <h2>Merge Complete!</h2>
+                <p>Your PDF containing all selected orders is ready.</p>
+
+                <div class="modal-actions">
+                    <button class="btn btn-primary" id="savePdfBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+                        Save PDF
+                    </button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('completeModal').classList.add('hidden')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                        Close
+                    </button>
+                </div>
+
+                <div id="failedOrdersContainer" class="hidden mt-4">
+                    <p class="error-message">
+                        <strong>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4M12 17h.01"/></svg>
+                            Some orders failed:
+                        </strong>
+                        <ul id="failedOrdersList" class="error-list"></ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

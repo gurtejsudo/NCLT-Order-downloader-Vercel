@@ -89,10 +89,10 @@ function displayCases(cases) {
         card.innerHTML = `
             <div class="case-item-title">${c.case_title1} vs ${c.case_title2}</div>
             <div class="case-item-meta">
-                <span><i class="fas fa-hashtag"></i> ${c.case_no}</span>
-                <span><i class="fas fa-building"></i> ${c.bench}</span>
-                <span><i class="fas fa-file-signature"></i> ${c.filing_no}</span>
-                <span><i class="fas fa-info-circle"></i> ${c.status}</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></svg> ${c.case_no}</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V7l6-4 6 4v14M9 9h1m-1 4h1m4-4h1m-1 4h1M10 21v-4h4v4"/></svg> ${c.bench}</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6Z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg> ${c.filing_no}</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> ${c.status}</span>
             </div>
         `;
         card.onclick = () => {
@@ -242,13 +242,16 @@ savePdfBtn.addEventListener('click', () => {
 });
 
 // Utils
+const SEARCH_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>';
+const SPINNER_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="spin"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></svg>';
+
 function setLoading(isLoading) {
     if (isLoading) {
         searchBtn.disabled = true;
-        searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+        searchBtn.innerHTML = `${SPINNER_ICON} Searching...`;
     } else {
         searchBtn.disabled = false;
-        searchBtn.innerHTML = '<i class="fas fa-search"></i> Find Orders';
+        searchBtn.innerHTML = `${SEARCH_ICON} Find Orders`;
     }
 }
 
